@@ -1,4 +1,13 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+// In development on localhost, default to local port 8080.
+// On Netlify/production, default directly to your live Render backend URL.
+const isLocal = typeof window !== 'undefined' && 
+  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+const defaultApiUrl = isLocal 
+  ? 'http://localhost:8080/api' 
+  : 'https://petcarehub-backend-1kzi.onrender.com/api';
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || defaultApiUrl;
 
 async function request(endpoint, options = {}) {
   const token = localStorage.getItem('petcarehub_token');
